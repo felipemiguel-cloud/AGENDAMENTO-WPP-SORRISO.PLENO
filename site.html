@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Sorriso Pleno - Agendamento via WhatsApp (H3.004)</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+   
+
+  <script>
+
+    tailwind.config = {
+
+      theme: {
+
+        extend: {
+
+          colors: {
+
+            brand: {
+
+              50: '#f0fdf4',
+
+              100: '#dcfce7',
+
+              500: '#10b981',
+
+              600: '#059669',
+
+              700: '#0d8a58',
+
+              800: '#065f46',
+
+              900: '#064e3b',
+
+            },
+
+            wa: {
+
+              bg: '#efeae2',
+
+              header: '#075e54',
+
+              bubbleIn: '#ffffff',
+
+              bubbleOut: '#d9fdd3',
+
+              btn: '#25d366'
+
+            }
+
+          },
+
+          fontFamily: {
+
+            sans: ['Inter', 'sans-serif'],
+
+          }
+
+        }
+
+      }
+
+    }
+
+  </script>
+
+  <style>
+
+    body {
+
+      font-family: 'Inter', sans-serif;
+
+      background-color: #f1f5f9;
+
+    }
+
+    ::-webkit-scrollbar {
+
+      width: 5px;
+
+      height: 5px;
+
+    }
+
+    ::-webkit-scrollbar-track {
+
+      background: rgba(0, 0, 0, 0.05);
+
+    }
+
+    ::-webkit-scrollbar-thumb {
+
+      background: #cbd5e1;
+
+      border-radius: 4px;
+
+    }
+
+    .chat-bg {
+
+      background-color: #efeae2;
+
+      background-image: radial-gradient(#d1d5db 0.75px, transparent 0.75px);
+
+      background-size: 12px 12px;
+
+    }
+
+    @keyframes pulse-subtle {
+
+      0%, 100% { opacity: 1; }
+
+      50% { opacity: 0.6; }
+
+    }
+
+    .animate-pulse-subtle {
+
+      animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+    }
+
+  </style>
+
+</head>
+
+<body class="text-slate-800 bg-slate-100 min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+
+
+
+  <header class="bg-white border-b border-slate-200 px-6 py-3.5 flex items-center justify-between shadow-sm z-30">
+
+    <div class="flex items-center gap-3">
+
+      <div class="w-9 h-9 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-700 shadow-sm">
+
+        <i class="fa-solid fa-tooth text-lg"></i>
+
+      </div>
+
+      <div>
+
+        <div class="flex items-center gap-2">
+
+          <h1 class="font-bold text-slate-800 text-base leading-tight">Sorriso Pleno</h1>
+
+          <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">H3.004</span>
+
+        </div>
+
+        <p class="text-xs text-slate-500 font-medium">Módulo 3: Agendamento Inteligente via WhatsApp</p>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="flex items-center gap-4">
+
+      <div class="hidden sm:flex items-center gap-2 text-xs bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg border border-slate-200">
+
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+
+        <span>API WhatsApp Business: <strong>Conectada</strong></span>
+
+      </div>
+
+      <button onclick="resetSimulation()" class="text-xs text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg border border-slate-200 font-medium transition-colors flex items-center gap-1.5">
+
+        <i class="fa-solid fa-rotate-right"></i>
+
+        <span>Reiniciar Teste</span>
+
+      </button>
+
+    </div>
+
+  </header>
+
+
+
+  <div class="flex-1 max-w-[1600px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+
+
+    <section class="lg:col-span-5 flex flex-col items-center">
+
+      <div class="w-full max-w-sm mb-3 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+
+        <p class="text-xs font-bold text-slate-700 mb-2 flex items-center justify-between">
+
+          <span>Critérios de Aceite (H3.004)</span>
+
+          <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
+
+        </p>
+
+        <div class="grid grid-cols-2 gap-1.5 text-[11px]">
+
+          <div id="crit-1" class="flex items-center gap-1.5 text-slate-400 font-medium">
+
+            <i class="fa-regular fa-circle-check text-xs"></i> 1. Solicitação
+
+          </div>
+
+          <div id="crit-2" class="flex items-center gap-1.5 text-slate-400 font-medium">
+
+            <i class="fa-regular fa-circle-check text-xs"></i> 2. Coleta dados
+
+          </div>
+
+          <div id="crit-3" class="flex items-center gap-1.5 text-slate-400 font-medium">
+
+            <i class="fa-regular fa-circle-check text-xs"></i> 3. Disponibilidade
+
+          </div>
+
+          <div id="crit-4" class="flex items-center gap-1.5 text-slate-400 font-medium">
+
+            <i class="fa-regular fa-circle-check text-xs"></i> 4. Confirmação
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="w-full max-w-sm bg-slate-900 rounded-[40px] p-3 shadow-2xl border-4 border-slate-800 relative">
+
+        <div class="absolute top-5 left-1/2 -translate-x-1/2 w-28 h-4 bg-slate-900 rounded-full z-40 flex items-center justify-center">
+
+          <div class="w-2.5 h-2.5 rounded-full bg-slate-800 mr-2"></div>
+
+          <div class="w-1.5 h-1.5 rounded-full bg-blue-900/60"></div>
+
+        </div>
+
+
+
+        <div class="bg-white rounded-[32px] overflow-hidden flex flex-col h-[650px] relative border border-slate-800">
+
+           
+
+          <div class="bg-wa-header text-white px-4 pt-7 pb-3 flex items-center justify-between shadow-md z-20">
+
+            <div class="flex items-center gap-2.5">
+
+              <i class="fa-solid fa-arrow-left text-sm cursor-pointer opacity-80 hover:opacity-100"></i>
+
+              <div class="relative">
+
+                <div class="w-9 h-9 rounded-full bg-white text-brand-700 flex items-center justify-center font-bold text-sm border">
+
+                  <i class="fa-solid fa-tooth"></i>
+
+                </div>
+
+                <span class="w-2.5 h-2.5 bg-emerald-400 border-2 border-wa-header rounded-full absolute bottom-0 right-0"></span>
+
+              </div>
+
+              <div>
+
+                <h2 class="font-bold text-xs leading-tight flex items-center gap-1">
+
+                  Sorriso Pleno Bot
+
+                  <i class="fa-solid fa-circle-check text-[10px] text-emerald-400"></i>
+
+                </h2>
+
+                <p class="text-[10px] text-emerald-100/80" id="botStatus">Online • Resposta instantânea</p>
+
+              </div>
+
+            </div>
+
+            <div class="flex items-center gap-3 text-xs text-white/80">
+
+              <i class="fa-solid fa-video cursor-pointer hover:text-white"></i>
+
+              <i class="fa-solid fa-phone cursor-pointer hover:text-white"></i>
+
+              <i class="fa-solid fa-ellipsis-vertical cursor-pointer hover:text-white"></i>
+
+            </div>
+
+          </div>
+
+
+
+          <div id="chatFeed" class="flex-1 chat-bg p-3 overflow-y-auto space-y-3 text-xs">
+
+            <div class="flex justify-center my-1">
+
+              <span class="bg-white/80 backdrop-blur-sm text-slate-500 text-[10px] font-semibold px-2.5 py-0.5 rounded-md shadow-sm uppercase">Hoje</span>
+
+            </div>
+
+
+
+            <div class="bg-amber-100/90 text-amber-900/80 text-[10px] p-2 rounded-lg text-center leading-tight border border-amber-200/60 shadow-sm">
+
+              <i class="fa-solid fa-lock text-[9px] mr-1"></i>
+
+              As mensagens são protegidas com criptografia de ponta a ponta. Atendimento automático Sorriso Pleno.
+
+            </div>
+
+          </div>
+
+
+
+          <div id="interactiveArea" class="bg-slate-100 border-t border-slate-200 p-2.5 space-y-2 z-20">
+
+          </div>
+
+
+
+          <div class="bg-slate-100 px-3 py-2 border-t border-slate-200 flex items-center gap-2 z-20">
+
+            <div class="flex-1 bg-white rounded-full px-3 py-1.5 flex items-center gap-2 border border-slate-200 text-xs shadow-inner">
+
+              <i class="fa-regular fa-face-smile text-slate-400 text-sm"></i>
+
+              <input type="text" id="userInputText" placeholder="Digite uma mensagem..." class="w-full text-xs focus:outline-none text-slate-700" onkeypress="handleKeyPress(event)">
+
+              <i class="fa-solid fa-paperclip text-slate-400 text-xs"></i>
+
+            </div>
+
+            <button onclick="sendCustomMessage()" class="w-8 h-8 rounded-full bg-wa-header text-white flex items-center justify-center hover:bg-emerald-800 transition-colors shadow">
+
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+
+            </button>
+
+          </div>
+
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <section class="lg:col-span-7 space-y-5">
+
+       
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+
+          <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center text-base">
+
+            <i class="fa-brands fa-whatsapp"></i>
+
+          </div>
+
+          <div>
+
+            <p class="text-xs text-slate-400 font-medium">Agendamentos WhatsApp</p>
+
+            <h3 class="text-lg font-bold text-slate-800" id="statWaCount">0</h3>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+
+          <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center text-base">
+
+            <i class="fa-regular fa-calendar-check"></i>
+
+          </div>
+
+          <div>
+
+            <p class="text-xs text-slate-400 font-medium">Total na Agenda Hoje</p>
+
+            <h3 class="text-lg font-bold text-slate-800" id="statTotalCount">3</h3>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-3">
+
+          <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 text-amber-600 flex items-center justify-center text-base">
+
+            <i class="fa-solid fa-clock font-normal"></i>
+
+          </div>
+
+          <div>
+
+            <p class="text-xs text-slate-400 font-medium">Horários Livres Hoje</p>
+
+            <h3 class="text-lg font-bold text-slate-800" id="statAvailableSlots">6</h3>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+
+        <div class="p-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-slate-50/50">
+
+          <div>
+
+            <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+
+              <span>Agenda de Consultas - Sorriso Pleno</span>
+
+              <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2 py-0.5 rounded-full">
+
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Sincronização WhatsApp
+
+              </span>
+
+            </h3>
+
+            <p class="text-xs text-slate-400">Consultas e solicitações gravadas automaticamente via robô H3.004</p>
+
+          </div>
+
+           
+
+          <div class="flex items-center gap-2">
+
+            <span class="text-xs text-slate-500 font-medium">Data:</span>
+
+            <input type="text" value="25/09/2026 (Hoje)" readonly class="bg-white border border-slate-200 text-slate-700 text-xs rounded-lg px-2.5 py-1 font-semibold text-center w-36 shadow-sm">
+
+          </div>
+
+        </div>
+
+
+
+        <div class="overflow-x-auto">
+
+          <table class="w-full text-left border-collapse">
+
+            <thead>
+
+              <tr class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+
+                <th class="py-3 px-4">Horário</th>
+
+                <th class="py-3 px-4">Paciente</th>
+
+                <th class="py-3 px-4">Dentista / Especialidade</th>
+
+                <th class="py-3 px-4">Procedimento</th>
+
+                <th class="py-3 px-4 text-center">Origem</th>
+
+                <th class="py-3 px-4 text-center">Status</th>
+
+              </tr>
+
+            </thead>
+
+            <tbody id="agendaTableBody" class="divide-y divide-slate-100 text-xs">
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="bg-slate-900 text-slate-300 p-4 rounded-2xl border border-slate-800 shadow-sm font-mono text-xs">
+
+        <div class="flex items-center justify-between pb-2 border-b border-slate-800 mb-3">
+
+          <span class="text-emerald-400 font-semibold flex items-center gap-2 text-[11px]">
+
+            <i class="fa-solid fa-terminal"></i> Log de Validação de Regras de Negócio
+
+          </span>
+
+          <span class="text-[10px] text-slate-500">API Webhook v2.4</span>
+
+        </div>
+
+        <div id="systemLog" class="space-y-1.5 max-h-32 overflow-y-auto text-[11px] pr-2">
+
+          <p class="text-slate-500">[10:00:02] Sistema de agendamento online inicializado...</p>
+
+          <p class="text-slate-500">[10:00:05] Aguardando nova mensagem de paciente via WhatsApp...</p>
+
+        </div>
+
+      </div>
+
+
+
+    </section>
+
+
+
+  </div>
+
+
+
+  <script>
+
+    let step = 0;
+
+    let appointmentData = {
+
+      name: '',
+
+      cpf: '',
+
+      phone: '',
+
+      dentist: '',
+
+      procedure: '',
+
+      date: '25/09/2026',
+
+      time: ''
+
+    };
+
+
+
+    let scheduleDB = [
+
+      {
+
+        time: '08:00',
+
+        patient: 'João Silva',
+
+        phone: '(11) 98822-1100',
+
+        dentist: 'Dra. Renata Santos',
+
+        procedure: 'Consulta Inicial',
+
+        origin: 'SISTEMA',
+
+        status: 'CONFIRMADO'
+
+      },
+
+      {
+
+        time: '09:00',
+
+        patient: 'Maria Santos',
+
+        phone: '(11) 97711-2233',
+
+        dentist: 'Dr. Carlos Mendes',
+
+        procedure: 'Avaliação Ortodôntica',
+
+        origin: 'SISTEMA',
+
+        status: 'CONFIRMADO'
+
+      },
+
+      {
+
+        time: '14:00',
+
+        patient: 'Pedro Oliveira',
+
+        phone: '(11) 96633-4455',
+
+        dentist: 'Dr. Rafael Costa',
+
+        procedure: 'Extração Simples',
+
+        origin: 'SISTEMA',
+
+        status: 'CONFIRMADO'
+
+      }
+
+    ];
+
+
+
+    const dentistSlots = {
+
+      'Dra. Renata Santos (Ortodontia)': ['10:00', '11:30', '15:00', '16:30'],
+
+      'Dr. Carlos Mendes (Clínica Geral)': ['10:30', '11:00', '14:30', '17:00'],
+
+      'Dr. Rafael Costa (Cirurgia Oral)': ['09:30', '11:00', '15:30', '16:00']
+
+    };
+
+
+
+    window.onload = () => {
+
+      renderTable();
+
+      startBot();
+
+    };
+
+
+
+    function resetSimulation() {
+
+      step = 0;
+
+      appointmentData = { name: '', cpf: '', phone: '', dentist: '', procedure: '', date: '25/09/2026', time: '' };
+
+       
+
+      scheduleDB = scheduleDB.filter(s => s.origin !== 'WHATSAPP');
+
+       
+
+      document.getElementById('chatFeed').innerHTML = `
+
+        <div class="flex justify-center my-1">
+
+          <span class="bg-white/80 backdrop-blur-sm text-slate-500 text-[10px] font-semibold px-2.5 py-0.5 rounded-md shadow-sm uppercase">Hoje</span>
+
+        </div>
+
+        <div class="bg-amber-100/90 text-amber-900/80 text-[10px] p-2 rounded-lg text-center leading-tight border border-amber-200/60 shadow-sm">
+
+          <i class="fa-solid fa-lock text-[9px] mr-1"></i>
+
+          As mensagens são protegidas com criptografia de ponta a ponta. Atendimento automático Sorriso Pleno.
+
+        </div>
+
+      `;
+
+       
+
+      resetCriteria();
+
+      renderTable();
+
+      addLog("Simulação reiniciada pelo usuário.");
+
+      startBot();
+
+    }
+
+
+
+    function setCriterionDone(num) {
+
+      const el = document.getElementById(`crit-${num}`);
+
+      if (el) {
+
+        el.className = "flex items-center gap-1.5 text-emerald-700 font-bold";
+
+        el.innerHTML = `<i class="fa-solid fa-circle-check text-xs text-emerald-600"></i> ${el.innerText.trim()}`;
+
+      }
+
+    }
+
+
+
+    function resetCriteria() {
+
+      const labels = ["1. Solicitação", "2. Coleta dados", "3. Disponibilidade", "4. Confirmação"];
+
+      labels.forEach((lbl, i) => {
+
+        const el = document.getElementById(`crit-${i+1}`);
+
+        if (el) {
+
+          el.className = "flex items-center gap-1.5 text-slate-400 font-medium";
+
+          el.innerHTML = `<i class="fa-regular fa-circle-check text-xs"></i> ${lbl}`;
+
+        }
+
+      });
+
+    }
+
+
+
+    function appendBubble(text, isOut = false, time = getCurrentTime()) {
+
+      const feed = document.getElementById('chatFeed');
+
+      const wrapper = document.createElement('div');
+
+      wrapper.className = `flex ${isOut ? 'justify-end' : 'justify-start'} animate-fade-in`;
+
+
+
+      const bubble = document.createElement('div');
+
+      bubble.className = `max-w-[85%] rounded-2xl px-3 py-2 shadow-sm text-xs relative ${
+
+        isOut 
+
+          ? 'bg-wa-bubbleOut text-slate-800 rounded-tr-none' 
+
+          : 'bg-white text-slate-800 rounded-tl-none border border-slate-100'
+
+      }`;
+
+
+
+      bubble.innerHTML = `
+
+        <div class="leading-relaxed whitespace-pre-line">${text}</div>
+
+        <div class="text-[9px] text-slate-400 text-right mt-1 flex items-center justify-end gap-1">
+
+          <span>${time}</span>
+
+          ${isOut ? '<i class="fa-solid fa-check-double text-blue-500 text-[10px]"></i>' : ''}
+
+        </div>
+
+      `;
+
+
+
+      wrapper.appendChild(bubble);
+
+      feed.appendChild(wrapper);
+
+      feed.scrollTop = feed.scrollHeight;
+
+    }
+
+
+
+    function showTypingIndicator(show = true) {
+
+      const status = document.getElementById('botStatus');
+
+      if (show) {
+
+        status.innerText = "digitando...";
+
+        status.className = "text-[10px] text-amber-300 font-medium animate-pulse";
+
+      } else {
+
+        status.innerText = "Online • Resposta instantânea";
+
+        status.className = "text-[10px] text-emerald-100/80";
+
+      }
+
+    }
+
+
+
+    function getCurrentTime() {
+
+      const now = new Date();
+
+      return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    }
+
+
+
+    function addLog(msg) {
+
+      const log = document.getElementById('systemLog');
+
+      const p = document.createElement('p');
+
+      const time = getCurrentTime();
+
+      p.innerHTML = `<span class="text-slate-500">[${time}]</span> ${msg}`;
+
+      log.appendChild(p);
+
+      log.scrollTop = log.scrollHeight;
+
+    }
+
+
+
+    function startBot() {
+
+      showTypingIndicator(true);
+
+      setTimeout(() => {
+
+        showTypingIndicator(false);
+
+        appendBubble("Olá! Seja bem-vindo(a) ao atendimento virtual da **Clínica Sorriso Pleno**! 🦷✨\n\nComo posso te ajudar hoje?");
+
+        renderInteractiveOptions([
+
+          { label: "📅 Agendar Consulta", action: () => selectOption1_Agendar() },
+
+          { label: "📍 Localização & Horários", action: () => sendInfoLocation() },
+
+          { label: "💬 Falar com Atendente", action: () => sendHumanInfo() }
+
+        ]);
+
+      }, 800);
+
+    }
+
+
+
+    function renderInteractiveOptions(options) {
+
+      const area = document.getElementById('interactiveArea');
+
+      area.innerHTML = '';
+
+       
+
+      const grid = document.createElement('div');
+
+      grid.className = "grid grid-cols-1 gap-1.5";
+
+
+
+      options.forEach(opt => {
+
+        const btn = document.createElement('button');
+
+        btn.className = "w-full bg-white hover:bg-emerald-50 text-brand-800 font-semibold py-2 px-3 rounded-xl border border-brand-100 shadow-sm text-xs transition-all active:scale-[0.98] text-center flex items-center justify-center gap-1.5";
+
+        btn.innerHTML = opt.label;
+
+        btn.onclick = opt.action;
+
+        grid.appendChild(btn);
+
+      });
+
+
+
+      area.appendChild(grid);
+
+    }
+
+
+
+    function selectOption1_Agendar() {
+
+      appendBubble("📅 Quero agendar uma consulta", true);
+
+      setCriterionDone(1);
+
+      addLog("Solicitação de agendamento recebida do WhatsApp.");
+
+       
+
+      showTypingIndicator(true);
+
+      document.getElementById('interactiveArea').innerHTML = '';
+
+
+
+      setTimeout(() => {
+
+        showTypingIndicator(false);
+
+        appendBubble("Com certeza! Vamos agendar sua consulta rapidamente. 😊\n\nPara começar a **coleta de dados**, por favor digite o seu **Nome Completo**:");
+
+        step = 1;
+
+      }, 1000);
+
+    }
+
+
+
+    function sendInfoLocation() {
+
+      appendBubble("📍 Qual a localização de vocês?", true);
+
+      setTimeout(() => {
+
+        appendBubble("Estamos localizados na Av. Paulista, 1000 - São Paulo/SP. Atendemos de Segunda a Sábado das 08h às 18h.");
+
+      }, 600);
+
+    }
+
+
+
+    function sendHumanInfo() {
+
+      appendBubble("💬 Preciso de atendente humano", true);
+
+      setTimeout(() => {
+
+        appendBubble("Um de nossos secretários responderá em breve nesta conversa.");
+
+      }, 600);
+
+    }
+
+
+
+    // Custom Message Input handler
+
+    function handleKeyPress(e) {
+
+      if (e.key === 'Enter') sendCustomMessage();
+
+    }
+
+
+
+    function sendCustomMessage() {
+
+      const input = document.getElementById('userInputText');
+
+      const val = input.value.trim();
+
+      if (!val) return;
+
+
+
+      input.value = '';
+
+      appendBubble(val, true);
+
+
+
+      if (step === 1) {
+
+        appointmentData.name = val;
+
+        step = 2;
+
+        addLog(`Dado coletado - Nome: ${val}`);
+
+        showTypingIndicator(true);
+
+        setTimeout(() => {
+
+          showTypingIndicator(false);
+
+          appendBubble(`Prazer em te conhecer, **${val}**! 👋\n\nPor favor, informe agora o seu **CPF** (somente números) para localização do seu cadastro:`);
+
+        }, 800);
+
+      } 
+
+      else if (step === 2) {
+
+        appointmentData.cpf = val;
+
+        appointmentData.phone = "(11) 98520-4122";
+
+        setCriterionDone(2);
+
+        addLog(`Dado coletado - CPF: ${val}`);
+
+
+
+        step = 3; 
+
+        showTypingIndicator(true);
+
+        setTimeout(() => {
+
+          showTypingIndicator(false);
+
+          appendBubble("Perfeito! Cadastro identificado com sucesso. ✅\n\nAgora escolha o **Dentista / Especialidade** para a consulta:");
+
+           
+
+          renderInteractiveOptions([
+
+            { 
+
+              label: "👩‍⚕️ Dra. Renata Santos (Ortodontia)", 
+
+              action: () => selectDentist('Dra. Renata Santos (Ortodontia)', 'Avaliação Ortodôntica') 
+
+            },
+
+            { 
+
+              label: "👨‍⚕️ Dr. Carlos Mendes (Clínica Geral)", 
+
+              action: () => selectDentist('Dr. Carlos Mendes (Clínica Geral)', 'Consulta Clínica') 
+
+            },
+
+            { 
+
+              label: "👨‍⚕️ Dr. Rafael Costa (Cirurgia Oral)", 
+
+              action: () => selectDentist('Dr. Rafael Costa (Cirurgia Oral)', 'Avaliação Cirúrgica') 
+
+            }
+
+          ]);
+
+        }, 1000);
+
+      }
+
+      else {
+
+        showTypingIndicator(true);
+
+        setTimeout(() => {
+
+          showTypingIndicator(false);
+
+          appendBubble("Por favor, selecione uma das opções acima para continuar o agendamento.");
+
+        }, 600);
+
+      }
+
+    }
+
+    function selectDentist(dentistFull, procedure) {
+
+      appointmentData.dentist = dentistFull;
+
+      appointmentData.procedure = procedure;
+
+
+
+      appendBubble(`Opção escolhida: ${dentistFull}`, true);
+
+      setCriterionDone(3);
+
+      addLog(`Verificando disponibilidade de horários no sistema para ${dentistFull}...`);
+
+
+
+      document.getElementById('interactiveArea').innerHTML = '';
+
+      showTypingIndicator(true);
+
+
+
+      setTimeout(() => {
+
+        showTypingIndicator(false);
+
+        const slots = dentistSlots[dentistFull] || ['10:00', '14:00', '16:00'];
+
+         
+
+        appendBubble(`Buscando disponibilidade na **agenda em tempo real** para **hoje (${appointmentData.date})**...\n\nEscolha o horário mais conveniente:`);
+
+
+
+        const slotOptions = slots.map(time => ({
+
+          label: `⏰ ${time} horas`,
+
+          action: () => selectTimeSlot(time)
+
+        }));
+
+
+
+        renderInteractiveOptions(slotOptions);
+
+      }, 1000);
+
+    }
+
+
+
+    function selectTimeSlot(time) {
+
+      appointmentData.time = time;
+
+      appendBubble(`Horário escolhido: ${time}`, true);
+
+      document.getElementById('interactiveArea').innerHTML = '';
+
+
+
+      showTypingIndicator(true);
+
+
+
+      setTimeout(() => {
+
+        showTypingIndicator(false);
+
+         
+
+        const summary = `📌 **Resumo do Agendamento:**\n\n` +
+
+          `• **Paciente:** ${appointmentData.name}\n` +
+
+          `• **Dentista:** ${appointmentData.dentist}\n` +
+
+          `• **Procedimento:** ${appointmentData.procedure}\n` +
+
+          `• **Data:** ${appointmentData.date} às **${appointmentData.time}**\n\n` +
+
+          `Deseja **confirmar** este agendamento?`;
+
+
+
+        appendBubble(summary);
+
+
+
+        renderInteractiveOptions([
+
+          { label: "✅ Sim, Confirmar Agendamento", action: () => confirmFinalBooking() },
+
+          { label: "❌ Cancelar e Recomeçar", action: () => resetSimulation() }
+
+        ]);
+
+      }, 800);
+
+    }
+
+
+
+    function confirmFinalBooking() {
+
+      appendBubble("✅ Sim, Confirmar Agendamento", true);
+
+      document.getElementById('interactiveArea').innerHTML = '';
+
+
+
+      showTypingIndicator(true);
+
+
+
+      setTimeout(() => {
+
+        showTypingIndicator(false);
+
+         
+
+        const newRecord = {
+
+          time: appointmentData.time,
+
+          patient: appointmentData.name,
+
+          phone: appointmentData.phone,
+
+          dentist: appointmentData.dentist.split('(')[0].trim(),
+
+          procedure: appointmentData.procedure,
+
+          origin: 'WHATSAPP',
+
+          status: 'CONFIRMADO'
+
+        };
+
+
+
+        scheduleDB.push(newRecord);
+
+         
+
+        scheduleDB.sort((a, b) => a.time.localeCompare(b.time));
+
+
+
+        setCriterionDone(4);
+
+        renderTable();
+
+        addLog(`SUCCESS: Agendamento H3.004 gravado na agenda! Paciente ${appointmentData.name} às ${appointmentData.time}.`);
+
+
+
+        appendBubble(`🎉 **Consulta Confirmada com Sucesso!**\n\nJá registramos o seu horário no sistema da **Sorriso Pleno**.\n\nEnviamos um lembrete no seu WhatsApp próximo ao horário. Obrigado e esperamos por você! 🦷✨`);
+
+
+
+        renderInteractiveOptions([
+
+          { label: "🔄 Fazer Novo Agendamento", action: () => resetSimulation() }
+
+        ]);
+
+
+
+      }, 1200);
+
+    }
+
+
+
+    function renderTable() {
+
+      const tbody = document.getElementById('agendaTableBody');
+
+      tbody.innerHTML = '';
+
+
+
+      let waCount = 0;
+
+
+
+      scheduleDB.forEach(item => {
+
+        if (item.origin === 'WHATSAPP') waCount++;
+
+
+
+        const tr = document.createElement('tr');
+
+        tr.className = item.origin === 'WHATSAPP' ? 'bg-emerald-50/60 font-medium border-b border-emerald-100 transition-all hover:bg-emerald-50' : 'hover:bg-slate-50 border-b border-slate-100';
+
+
+
+        tr.innerHTML = `
+
+          <td class="py-3 px-4 font-bold text-slate-800">${item.time}</td>
+
+          <td class="py-3 px-4">
+
+            <p class="font-semibold text-slate-800">${item.patient}</p>
+
+            <p class="text-[10px] text-slate-400">${item.phone || '(11) 98000-0000'}</p>
+
+          </td>
+
+          <td class="py-3 px-4 text-slate-600">${item.dentist}</td>
+
+          <td class="py-3 px-4 text-slate-600">${item.procedure}</td>
+
+          <td class="py-3 px-4 text-center">
+
+            ${
+
+              item.origin === 'WHATSAPP' 
+
+                ? '<span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 font-bold text-[10px] px-2 py-0.5 rounded-full"><i class="fa-brands fa-whatsapp"></i> WhatsApp</span>'
+
+                : '<span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 font-medium text-[10px] px-2 py-0.5 rounded-full"><i class="fa-solid fa-desktop"></i> Balcão</span>'
+
+            }
+
+          </td>
+
+          <td class="py-3 px-4 text-center">
+
+            <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-semibold px-2 py-0.5 rounded-full">
+
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> ${item.status}
+
+            </span>
+
+          </td>
+
+        `;
+
+        tbody.appendChild(tr);
+
+      });
+
+
+
+      document.getElementById('statWaCount').innerText = waCount;
+
+      document.getElementById('statTotalCount').innerText = scheduleDB.length;
+
+      document.getElementById('statAvailableSlots').innerText = Math.max(0, 10 - scheduleDB.length);
+
+    }
+
+  </script>
+
+</body>
+
+</html>
